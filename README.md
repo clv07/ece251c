@@ -22,7 +22,7 @@ We explore the sample-rate-independent RNN proposed in the paper and extend it w
 - `BlackstarHT40_AmpHighGain.json` - One of LSTM model provided in the original repository downloaded from the [Guitar ML Tone Library](https://guitarml.com/tonelibrary/tonelib-pro.html)
 - `audio/test_signal_input.wav` - Test signal input files.
 
-### 🔹 Our Contributions
+### Our Contributions
 - `rnn_fb.ipynb`
   - Loads audio inputs  
   - Uses the `soundfile` library (instead of `torchaudio`) to avoid SR-related errors  
