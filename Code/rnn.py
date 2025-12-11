@@ -1,3 +1,4 @@
+# The code is from the Carson et al. (2024): https://github.com/a-carson/dafx24_sr_indie_rnn
 import copy
 import json
 import math

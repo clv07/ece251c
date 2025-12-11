@@ -1,3 +1,4 @@
+# The code is from the Carson et al. (2024): https://github.com/a-carson/dafx24_sr_indie_rnn
 import math
 import torch
 from torch import tensor as T
@@ -25,7 +26,8 @@ def giant_fft_resample(x: T, orig_freq: int, new_freq: int):
 
     # fft
     x_fft_og = torch.fft.rfft(x, n_fft_orig)
-    x_fft_new = torch.zeros((1, n_fft_new // 2 + 1), dtype=x_fft_og.dtype, device=x_fft_og.device)
+    # x_fft_new = torch.zeros((1, n_fft_new // 2 + 1), dtype=x_fft_og.dtype, device=x_fft_og.device)
+    x_fft_new = torch.zeros((*x_fft_og.shape[:-1], n_fft_new // 2 + 1), dtype=x_fft_og.dtype, device=x_fft_og.device)
 
     if new_freq > orig_freq:
         # pad fft
