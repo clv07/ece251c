@@ -1,0 +1,81 @@
+body {
+  font-family: Arial, sans-serif;
+  padding: 30px;
+  background: #fafafa;
+}
+
+h1, h2 {
+  margin-top: 40px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  margin-top: 25px;
+  font-size: 14px;
+}
+
+th, td {
+  border-bottom: 1px solid #ddd;
+  padding: 10px;
+  text-align: center;
+}
+
+td {
+  vertical-align: middle; /* centers audio player vertically */
+}
+
+.top-header {
+  background: #f0f0f0;
+  font-weight: bold;
+}
+
+.group-header {
+  background: #f8f8f8;
+  font-weight: bold;
+  padding: 14px 6px;
+}
+
+.subheader {
+  background: #fcfcfc;
+  font-weight: bold;
+}
+
+.dash {
+  color: #777;
+  font-size: 18px;
+}
+
+audio {
+  display: block;
+  margin: 0 auto;
+}
+
+.sr-header {
+background: #f7f7f7;
+font-weight: bold;
+cursor: pointer;
+padding: 10px;
+}
+
+.subtable {
+  padding: 10px 20px;
+}
+
+.subrow {
+  display: flex;
+  align-items: center;
+  padding: 6px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.subcell {
+  display: inline-block;
+  margin-right: 20px;
+}
+
+.ch {
+  width: 60px;
+  font-weight: bold;
+}

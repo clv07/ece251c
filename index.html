@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>RNN Output Comparison</title>
+    <link rel="stylesheet" href="display_output.css">
+</head>
+
+<body>
+
+    <h1>SNR Comparison</h1>
+        <table id="snrTable" class="'snr-table"></table>
+
+    <h1>Sample-Rate Conversion Audio Files</h1>
+
+        <!-- Table 1: Full band -->
+        <h2>Full-band Output</h2>
+        <table id="fullTable"></table>
+
+        <!-- Table 2: Alpha 0.7 Reconstructed-->
+        <h2>Alpha 0.7 Reconstructed Output</h2>
+        <table id="a7RcstTable"></table>
+        
+        <!-- Table 4: Alpha 0.5 Reconstructed -->
+        <h2>Alpha 0.5 Reconstructed Output</h2>
+        <table id="a5RcstTable"></table>
+
+
+        <!-- Table 3: Alpha 0.7 CMFB Channels -->
+        <h2>Alpha 0.7 Subband Output In Channels</h2>
+        <table id="a7SubTable"></table>
+
+
+        <!-- Table 5: Alpha 0.5 CMFB Channels -->
+        <h2>Alpha 0.5 Subband Output In Channels</h2>
+        <table id="a5SubTable"></table>
+
+        <script src="display_output.js"></script>
+
+</body>
+</html>
