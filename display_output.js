@@ -13,8 +13,8 @@ const DELAY_METHODS = METHODS.slice(1);
 
 const INPUT_ROOT = 'inputs'
 const FULL_ROOT = 'outputs_without_cmfb'
-const A7_ROOT = 'outputs_alpha0.7'
-const A5_ROOT = 'outputs_alpha0.5'
+const A7_ROOT = 'outputs_alpha0.7/with_cmfb'
+const A5_ROOT = 'outputs_alpha0.5/with_cmfb'
 
 const FULL_FILE = 'Example2_RNN.wav'
 const RCST_FILE = 'Example2_RNN_Reconstructed.wav'
@@ -36,12 +36,6 @@ const fullTable = document.getElementById("fullTable");
 
 fullTable.insertAdjacentHTML("beforeend", `
 <tr class="top-header">
-  <th>Input signal</th>
-  <th colspan="${METHODS.length}">
-      <audio controls preload="none" data-src="${INPUT_ROOT}/exampleAudio/Example2.wav"></audio>
-  </th>
-</tr>
-<tr>
   <th rowspan="2" class="group-header">Inference SR</th>
   <th class="group-header" rowspan="2">${METHODS[0].label}</th>
   <th class="group-header" colspan="${DELAY_METHODS.length}">Delay-based methods</th>
@@ -74,12 +68,6 @@ const a7RcstTable = document.getElementById("a7RcstTable");
 
 a7RcstTable.insertAdjacentHTML("beforeend", `
 <tr class="top-header">
-  <th>Input signal</th>
-  <th colspan="${METHODS.length}">
-      <audio controls preload="none" data-src="${INPUT_ROOT}/exampleAudio/Example2.wav"></audio>
-  </th>
-</tr>
-<tr>
   <th rowspan="2" class="group-header">Inference SR</th>
   <th class="group-header" rowspan="2">${METHODS[0].label}</th>
   <th class="group-header" colspan="${DELAY_METHODS.length}">Delay-based methods</th>
@@ -112,9 +100,13 @@ const a7SubTable = document.getElementById("a7SubTable");
 // Header
 a7SubTable.insertAdjacentHTML("beforeend", `
 <tr class="top-header">
-    <th>Inference SR</th>
-    <th>Channel</th>
-    ${METHODS.map(m => `<th class="subheader">${m.label}</th>`).join("")}
+    <th rowspan="2" class="group-header">Inference SR</th>
+    <th rowspan="2" class="group-header">Channel</th>
+    <th class="group-header" rowspan="2">${METHODS[0].label}</th>
+    <th class="group-header" colspan="${DELAY_METHODS.length}">Delay-based methods</th>
+</tr>
+  <tr>
+    ${DELAY_METHODS.map(m => `<th class="subheader">${m.label}</th>`).join("")}
 </tr>
 `);
 
@@ -144,12 +136,6 @@ SR.forEach(sr => {
 const a5RcstTable = document.getElementById("a5RcstTable");
 
 a5RcstTable.insertAdjacentHTML("beforeend", `
-<tr class="top-header">
-  <th>Input signal</th>
-  <th colspan="${METHODS.length}">
-      <audio controls preload="none" data-src="${INPUT_ROOT}/exampleAudio/Example2.wav"></audio>
-  </th>
-</tr>
 <tr>
   <th rowspan="2" class="group-header">Inference SR</th>
   <th class="group-header" rowspan="2">${METHODS[0].label}</th>
@@ -183,9 +169,13 @@ const a5SubTable = document.getElementById("a5SubTable");
 // Header
 a5SubTable.insertAdjacentHTML("beforeend", `
 <tr class="top-header">
-    <th>Inference SR</th>
-    <th>Channel</th>
-    ${METHODS.map(m => `<th class="subheader">${m.label}</th>`).join("")}
+    <th rowspan="2" class="group-header">Inference SR</th>
+    <th rowspan="2" class="group-header">Channel</th>
+    <th class="group-header" rowspan="2">${METHODS[0].label}</th>
+    <th class="group-header" colspan="${DELAY_METHODS.length}">Delay-based methods</th>
+</tr>
+  <tr>
+    ${DELAY_METHODS.map(m => `<th class="subheader">${m.label}</th>`).join("")}
 </tr>
 `);
 
@@ -211,40 +201,59 @@ SR.forEach(sr => {
   a5SubTable.appendChild(container);
 });
 
+// Subband Inputs
+const subbandInput = document.getElementById("subbandInput");
+
+// Header
+subbandInput.insertAdjacentHTML("beforeend", `
+<tr class="top-header">
+    <th class="group-header">Channel</th>
+    <th class="group-header">Audio Files</th>
+</tr>
+`);
+
+for (let ch = 1; ch <= 8; ch++) {
+    const file = `${INPUT_ROOT}/Subchannel_Audio_Example2/Channel_${ch}.wav`;
+    subbandInput.innerHTML += `<td>${ch}</td><td><audio controls preload="none" data-src="${file}"></audio></td>`;
+  }
+
 //////////// Events /////////
 // Toggle logic
 document.addEventListener("click", e => {
   const srRow = e.target.closest(".sr-toggle");
   if (!srRow) return;
 
+  const table = srRow.closest("table");     
   const sr = srRow.dataset.sr;
-  const container = document.querySelector(`tbody[data-sr-content="${sr}"]`);
 
-  // Toggle expand/collapse
+  const container = table.querySelector(
+    `tbody[data-sr-content="${sr}"]`
+  );
+
+  if (!container) {
+    console.error("No container found for SR:", sr);
+    return;
+  }
+
   const isHidden = container.style.display === "none";
   container.style.display = isHidden ? "" : "none";
 
-  // If already loaded, do nothing
   if (container.dataset.loaded) return;
 
-  // Build rows ONCE using DocumentFragment
+  const root = container.dataset.root;
   const frag = document.createDocumentFragment();
 
   for (let ch = 1; ch <= 8; ch++) {
     const tr = document.createElement("tr");
 
-    // SR cell appears only on first row
     if (ch === 1) {
       tr.innerHTML += `<td rowspan="8" class="group-header">${sr} kHz</td>`;
     }
 
-    tr.innerHTML += `<td>Ch ${ch}</td>`;
+    tr.innerHTML += `<td>${ch}</td>`;
 
     METHODS.forEach(method => {
- 
-      const root = container.dataset.root
       const file = `${root}/${method.key}/sr${sr}/Channel_${ch}_RNN.wav`;
-
       tr.innerHTML += `<td><audio controls preload="none" data-src="${file}"></audio></td>`;
     });
 
@@ -255,17 +264,17 @@ document.addEventListener("click", e => {
   container.dataset.loaded = "true";
 });
 
-
 // lazy audio loading
-document.addEventListener("play", function (e) {
+document.addEventListener("play", (e) => {
   const audio = e.target;
-  if (audio.tagName !== "AUDIO") return;
+  if (audio.tagName !== "AUDIO" || audio.dataset.loaded) return;
 
-  if (!audio.dataset.loaded) {
-    audio.innerHTML = `<source src="${audio.dataset.src}" type="audio/wav">`;
-    audio.load();
-    audio.dataset.loaded = "true";
-  }
+  const src = audio.dataset.src;
+  const source = document.createElement("source");
+  source.src = src;
+  source.type = "audio/wav";
+
+  audio.appendChild(source);
+  audio.load();
+  audio.dataset.loaded = "true";
 }, true);
-
-document.addEventListener("DOMContentLoaded", buildSNRTable);
