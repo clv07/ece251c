@@ -21,10 +21,8 @@ const RCST_FILE = 'Example2_RNN_Reconstructed.wav'
 
 //////////// Helper functions ////////////
 // Lazy-loading audio cell
-function audioCell(path, unavailable = false) {
-  return unavailable
-    ? `<td class="dash">–</td>`
-    : `
+function audioCell(path) {
+  return `
       <td>
         <audio controls preload="none" data-src="${path}"></audio>
       </td>`;
@@ -51,9 +49,8 @@ fullTable.insertAdjacentHTML("beforeend", `
     tr.innerHTML = `<td><b>${sr} kHz</b></td>`;
 
     METHODS.forEach((method, idx) => {
-      const unavailable = sr === "44.1" && idx > 0;
       const path = `${FULL_ROOT}/${method.key}/sr${sr}/${FULL_FILE}`;
-      tr.innerHTML += audioCell(path, unavailable);
+      tr.innerHTML += audioCell(path);
     });
 
     frag.appendChild(tr);
@@ -83,9 +80,8 @@ a7RcstTable.insertAdjacentHTML("beforeend", `
     tr.innerHTML = `<td><b>${sr} kHz</b></td>`;
    
     METHODS.forEach((method, idx) => {
-      const unavailable = sr === "44.1" && idx > 0;
       const path = `${A7_ROOT}/${method.key}/sr${sr}/${RCST_FILE}`;
-      tr.innerHTML += audioCell(path, unavailable);
+      tr.innerHTML += audioCell(path);
     });
 
     frag.appendChild(tr);
@@ -152,9 +148,8 @@ a5RcstTable.insertAdjacentHTML("beforeend", `
     tr.innerHTML = `<td><b>${sr} kHz</b></td>`;
 
     METHODS.forEach((method, idx) => {
-      const unavailable = sr === "44.1" && idx > 0;
       const path = `${A5_ROOT}/${method.key}/sr${sr}/${RCST_FILE}`;
-      tr.innerHTML += audioCell(path, unavailable);
+      tr.innerHTML += audioCell(path);
     });
 
     frag.appendChild(tr);
