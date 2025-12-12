@@ -1,6 +1,8 @@
 # ECE251C Project  
 **Members:** Livia Chandra, Noah Jongeling
 
+**Website:** We made a [website](https://clv07.github.io/ece251c/) to present the input and output WAV files from our project. Note that it might take some time to load and play the audio files since there are too many of them.
+
 ## Overview
 This project is based on the implementation from the paper:
 
@@ -46,7 +48,7 @@ These three folders share the similar folder structure of having parent folder f
 `outputs_csv` and `outputs_png` contain tables summarizing SNR values for different comparison conditions.
 
 Note that all inputs and outpus audio files are WAV files. 
-We also made a website to present the input and output WAV files [here](https://clv07.github.io/ece251c/).
+
 
 ## Running Instructions
 - Create virtual environment to run the Jupyter notebook
